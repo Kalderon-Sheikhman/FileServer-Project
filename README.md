@@ -41,6 +41,7 @@ Contributions are welcome. Please follow the Git flow and create a pull request 
 
 ### **Libraries Used In Building The App**
 Multer, Nodemail,JWT, Express, NodeJS,typescript etc.
+Hosted On Railsway.app and postgres deployed at Vercel
 
 #### **Foray Into the APP**
 Admin Panel Display
@@ -54,6 +55,13 @@ User Dashboard
 
 Sending Mail Interface
 ![user send mail](https://github.com/Kalderon-Sheikhman/FileServer-Project/assets/74660152/ee503ed7-5cd7-4025-9179-5e1f74823c0e)
+
+Access the API_DOCS here
+https://astonishing-bridge-production.up.railway.app/api_docs
+
+# **THE SITE HAS BEEN DEPLOYED HERE**
+https://astonishing-bridge-production.up.railway.app/
+
 
 
 License
