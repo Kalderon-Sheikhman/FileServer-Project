@@ -50,7 +50,7 @@ export const upload = multer({
     }).single('myfile')
 
 
-
+// upload files to this endpoint
 const uploadFile = (req: Request, res: Response) => {
     const { filename, description } = req.body
     const host = 'https://astonishing-bridge-production.up.railway.app/uploads/';
@@ -78,9 +78,9 @@ const uploadFile = (req: Request, res: Response) => {
                 if (err) {
                     throw err
                 }
-                req.flash('success_msg', 'File uploaded successfully!')
+                req.flash('success_msg', 'File upload a success!')
                 res.redirect('/dashboard')
-                // return res.status(200).json({success_msg: 'File uploaded successfully!'});
+                // return res.status(200).json({success_msg: 'File upload a success!'});
             }
         )
     } else {

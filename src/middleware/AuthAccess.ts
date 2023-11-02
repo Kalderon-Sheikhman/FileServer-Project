@@ -12,9 +12,9 @@ export const checkNotAuthenticated = (req: Request, res: Response, next: NextFun
     if (req.isAuthenticated()) {
         return next()
     }
-    req.flash('error_msg', 'Please log in to view resource')
+    req.flash('error_msg', 'Sign in to access page!')
     res.redirect('/login')
-    // res.status(401).json({error_msg: 'Please log in to view resources!'})
+    // res.status(401).json({error_msg: 'Sign in to access page!s!'})
 }
 
 export const verifyAdmin = (req: Request, res: Response, next: NextFunction) => {

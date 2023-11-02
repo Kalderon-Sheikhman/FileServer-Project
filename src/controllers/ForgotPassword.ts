@@ -43,7 +43,7 @@ const forgotPassword = (req: Request, res: Response, next: NextFunction) => {
             }
 
             else if (result.rows.length === 0) {
-                errors.push({ msg: 'User with this email does not exist'})
+                errors.push({ msg: 'this email does not have an account'})
                 res.render('forgotPassword', { errors })
                 // res.status(400).json({errors})
             } else {
@@ -69,7 +69,7 @@ const forgotPassword = (req: Request, res: Response, next: NextFunction) => {
                     to: email,
                     subject: 'Password reset',
                     html: `
-                        <h3>click on the link below to reset your password</h3>
+                        <h4>click on this link to reset your password</h4>
                         <br>
                         <p>${link}</p>
                         `
@@ -83,7 +83,7 @@ const forgotPassword = (req: Request, res: Response, next: NextFunction) => {
                     }
                   });
                 //res.send('Password reset link has been sent to your email ...')
-                req.flash('success_msg', 'Password reset link has been sent to your email ...')
+                req.flash('success_msg', 'Generated password reset link has been sent to your mail ...')
                 res.redirect('/login')
                 // res.status(200).json({"mail message": "Password reset link has been sent to your email ...", link, token, id: user.user_id})
                 

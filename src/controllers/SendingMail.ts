@@ -96,7 +96,7 @@ const sendingMail = (req: Request, res: Response) => {
     });
     
     // Redirect to the dashboard with success message
-    req.flash('success_msg', 'File sent to mail address successfully')
+    req.flash('success_msg', 'message with attachment sent to mail address....')
     res.redirect('/dashboard')
 }
 
