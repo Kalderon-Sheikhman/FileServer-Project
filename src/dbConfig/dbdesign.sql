@@ -4,7 +4,7 @@ SELECT * FROM users;
 -- TITBITS ABOUT THE USAGE OF A POSTGRES DB
 
 -- Drop the fileserver database
-DROP DATABASE fileserver;
+DROP DATABASE databasename;
 
 -- Delete a record from the users table where the user_name is 'specify'
 DELETE FROM users WHERE user_name = 'specify';
@@ -16,7 +16,7 @@ DROP TABLE users;
 
 
 
--- Create the fileserver database again
+-- Create  database
 CREATE DATABASE backendfilestorage;
 
 -- Update the users table, setting is_admin to true where the user_name is 'kduah'
@@ -70,4 +70,8 @@ CREATE TABLE downloads(
     image VARCHAR(255) NOT NULL,
     number_of_downloaded_files numeric NOT NULL
 );
+
+-- Sign In as admin with dummies =
+-- duah229@gmail.com and password asdfghjk, they actually work. DB hosted on Vercel
+-- POSTGRES DB, Hosted In part at RAILSWAY.APP
 
