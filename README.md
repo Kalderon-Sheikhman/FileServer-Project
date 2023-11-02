@@ -1,4 +1,4 @@
-# **File Server Project**
+# **File Server BACKEND Project**
 
 ## **Objective**
 Lizzy runs a business that distributes documents such as wedding cards, admission forms, etc., on behalf of various businesses to different users. To scale her business, she aims to create a digital platform for easy remote access and downloads.
@@ -38,6 +38,23 @@ Search for specific files in the file server.
 Upload files with relevant information if you are an admin.
 Contributions
 Contributions are welcome. Please follow the Git flow and create a pull request for review.
+
+### **Libraries Used In Building The App**
+Multer, Nodemail,JWT, Express, NodeJS,typescript etc.
+
+#### **Foray Into the APP**
+Admin Panel Display
+![admin panel](https://github.com/Kalderon-Sheikhman/FileServer-Project/assets/74660152/64aa115f-4f83-46e9-8285-7cb088a907e2)
+
+Admin Display
+![admin upload](https://github.com/Kalderon-Sheikhman/FileServer-Project/assets/74660152/26169418-e65f-4a13-bdd1-9fd445e093b5)
+
+User Dashboard
+![userdashboard](https://github.com/Kalderon-Sheikhman/FileServer-Project/assets/74660152/26b953f4-7d85-4692-9087-6831ad320287)
+
+Sending Mail Interface
+![user send mail](https://github.com/Kalderon-Sheikhman/FileServer-Project/assets/74660152/ee503ed7-5cd7-4025-9179-5e1f74823c0e)
+
 
 License
 This project is licensed under the MIT License.
