@@ -1,0 +1,58 @@
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body" style="background-color: white; color: blue;">
+      <h1 class="text-center mb-3" style="color: blue;">
+        <i class="fas fa-user-circle"></i> Register
+      </h1>
+      <% if(typeof errors != 'undefined') { %> <% errors.forEach(error=>{ %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color: blue; color: white;">
+          <%= error.msg %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true" style="color: white;">&times;</span>
+          </button>
+        </div>
+      <% }) %> <% } %>
+      
+      <form action="/register" method="POST">
+        <div class="form-group">
+          <label for="name" style="color: blue;">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-control"
+            placeholder="Enter Name" required style="border-color: blue;" />
+        </div>
+        <div class="form-group">
+          <label for="email" style="color: blue;">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            placeholder="Enter Email" required style="border-color: blue;" />
+        </div>
+        <div class="form-group">
+          <label for="password" style="color: blue;">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            placeholder="Create Password" required style="border-color: blue;" />
+        </div>
+        <div class="form-group">
+          <label for="password2" style="color: blue;">Confirm Password</label>
+          <input
+            type="password"
+            id="password2"
+            name="password2"
+            class="form-control"
+            placeholder="Confirm Password" required style="border-color: blue;" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="background-color: blue;">Register</button>
+      </form>
+      <p class="lead mt-4" style="color: blue;"> Already Registered? <a href="/login" style="color: blue;">Login</a></p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg bg-primary text-light py-3 fixed-top">
+  <div class="container">
+      <h1><i class="fa-regular fa-folder-open"></i>File server</h1>
+      <p class="mt-4"><i class="fa-solid fa-user-pen"></i> <%= name.charAt(0).toUpperCase() + name.slice(1) %></p>
+      <a href="/logout" class="btn btn-secondary">Logout</a>
+  </div>
+</nav>
+
+<section class="bg-blue text-white p-5">
+  <div class="container">
+      <div class="text-center">
+        <h3 class="mb-3 mb-md-0">Click to upload files</h3>
+            <form class="" action="/upload_file" method="GET">
+              <input type="submit" class="form-control btn-info mr-1" value="Upload">
+            </form>
+      </div>
+  </div>
+</section>
+      
+<% if(success_msg != ' ') { %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert" style="background-color: white; color: white;">
+    <%= success_msg %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% } %>
+
+<!-- Render Files-->
+<section class="p-5">
+  <div class="container">
+      <div class="row text-center">
+        <% if (fileInfos.length) { %> <% for(let fileInfo of fileInfos) { %>  
+        <div class="col-sm-6 col-md-4">
+          <div class="card mb-3" style="background-color: #add8e6; color: white; max-width: 540px;">
+              <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="<%= fileInfo.image %>" class="img-fluid rounded-start" alt="...">
+                </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= fileInfo.title %></h5>
+                      <p class="card-text"><%= fileInfo.description %></p>
+                      <div class="input-group">
+                        <button class="bg-success mr-1 text-white" style="outline: none;">Downloads
+                          <h3><%= fileInfo.number_of_downloaded_files %></h3>
+                        </button>
+                        <button class="bg-primary text-white">Sent files
+                          <h3><%= fileInfo.number_of_sent_files %></h3>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <% } %>
+        <% } else { %>
+        <div>No Files Available Yet</div>
+        <% } %>
+      </div>
+  </div>
+</section>

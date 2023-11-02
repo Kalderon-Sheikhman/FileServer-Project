@@ -1,0 +1,67 @@
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+      <div class="card card-body" style="background-color: blue; color: white;">
+          <h1 class="text-center mb-3" style="color: white;"><i class="fas fa-sign-in-alt"></i>  Login</h1>
+          
+          <% if(success_msg != '') { %>
+              <div class="alert alert-success alert-dismissible fade show" role="alert" style="background-color: blue; color: white;">
+                  <%= success_msg %>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true" style="color: white;">&times;</span>
+                  </button>
+              </div>
+          <% } %>
+
+          <% if(error_msg != '') { %>
+              <div class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color: blue; color: white;">
+                  <%= error_msg %>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true" style="color: white;">&times;</span>
+                  </button>
+              </div>
+          <% } %>
+
+          <% if(error != ''){ %>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert" style="background-color: blue; color: white;">
+                  <%= error %>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true" style="color: white;">&times;</span>
+                  </button>
+              </div>
+          <% } %>
+          
+          
+          <form action="/login" method="POST">
+              <div class="form-group">
+                  <label for="email" style="color: white;">Email</label>
+                  <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      class="form-control"
+                      placeholder="Enter Email" required
+                      style="background-color: white; color: blue;"
+                  />
+              </div>
+              <div class="form-group">
+                  <label for="password" style="color: white;">Password</label>
+                  <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      class="form-control"
+                      placeholder="Enter Password" required
+                      style="background-color: white; color: blue;"
+                  />
+              </div>
+              <button type="submit" class="btn btn-primary btn-block" style="background-color: blue;">Login</button>
+          </form>
+          <p class="lead mt-2">
+              <a href="/register" style="color: white;">Not signed up yet? Register</a>
+          </p>
+          <p class="lead mt-1 mb-1">
+              <a href="/forgot_password" style="color: white;">Forgot password?</a>
+          </p>
+      </div>
+  </div>
+</div>

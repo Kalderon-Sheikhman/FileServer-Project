@@ -1,0 +1,49 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg bg-dark text-light py-3">
+  <div class="container">
+      <h1><i class="fa-regular fa-folder-open"></i>File server</h1>
+      <p class="mt-4"><i class="fa-solid fa-user-large"></i> <%= name.charAt(0).toUpperCase() + name.slice(1) %></p>
+      <a href="/logout" class="btn btn-secondary">Logout</a>
+  </div>
+</nav>
+
+<!-- Searched Files-->
+<section class="p-5">
+  <div class="container">
+      <div class="row text-center">
+        <% if (searchfiles.length) { %> <% searchfiles.forEach((searchfile) => { %>  
+        <div class="col-sm-6 col-md-4">
+          <div class="card mb-3 bg-info text-light" style="max-width: 540px;">
+              <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="<%= searchfile.image %>" class="img-fluid rounded-start" alt="...">
+                </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= searchfile.title %></h5>
+                      <p class="card-text"><%= searchfile.description %></p>
+                      <div class="input-group ">
+                        <form action="/download_file" method="POST">
+                          <input type="submit" class="form-control btn-success" value="Download">
+                          <input type="hidden" name="file_id" value="<%= searchfile.file_id %>">
+                          <input type="hidden" name="filename" value="<%= searchfile.title %>">
+                          <input type="hidden" name="description" value="<%= searchfile.description %>">
+                          <input type="hidden" name="myfile" value="<%= searchfile.image %>">
+                        </form>
+                        <form action="/send_mail" method="POST">
+                          <input type="submit" class="form-control btn-primary mr-1" value="Send">
+                          <input type="hidden" name="file_id" value="<%= searchfile.file_id %>">
+                          <input type="hidden" name="filename" value="<%= searchfile.title %>">
+                          <input type="hidden" name="description" value="<%= searchfile.description %>">
+                          <input type="hidden" name="myfile" value="<%= searchfile.image %>">
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <% }) %> <% } %>
+      </div>
+  </div>
+</section>

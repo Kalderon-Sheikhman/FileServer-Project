@@ -1,0 +1,38 @@
+<section class="p-5" style="background-color: #f8f9fa;">
+  <div class="container">
+      <div class="row text-center">
+          <div class="col-md">
+              <div class="card mb-3 bg-light text-dark" style="max-width: 540px;">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="<%= myfile %>" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title"><%= filename %></h5>
+                        <p class="card-text"><%= description %></p>
+                        <form action="/sending_mail" method="POST">
+                          <div class="mb-3">
+                            <input type="email" class="form-control" name="to" id="to" placeholder="To: name@example.com" required>
+                          </div>
+                          <div class="mb-3">
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                          </div>
+                          <div class="mb-3">
+                            <textarea class="form-control" name="body" placeholder="Body" id="body" rows="3" required></textarea>
+                          </div>
+                          <input type="submit" class="form-control btn-success mb-1" value="Send" style="background-color: #343a40;">
+                          <input type="hidden" name="file_id" value="<%= file_id %>">
+                          <input type="hidden" name="filename" value="<%= filename %>">
+                          <input type="hidden" name="description" value="<%= description %>">
+                          <input type="hidden" name="myfile" value="<%= myfile %>">
+                        </form>
+                        <button class="form-control btn-primary mr-1" style="background-color: #007bff;"><a href="/dashboard" style="text-decoration: none; color: white;" class="text-light">Cancel</a></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          </div>
+      </div>
+  </div>
+</section>
