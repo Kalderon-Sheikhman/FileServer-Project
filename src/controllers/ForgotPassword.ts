@@ -1,10 +1,12 @@
-import express, { Application, Request, Response, NextFunction} from 'express'
-import pool from '../dbConfig/db'
-import jwt from 'jsonwebtoken'
-import transporter from '../utils/mailer';
-import { port } from '../server';
-import dotenv from 'dotenv'
+import express, { Application, Request, Response, NextFunction} from 'express';
+import pool from '../dbConfig/db';
+import jwt from 'jsonwebtoken';
+import transporter from '../utils/Mailer';;
+import { port } from '../server';;
+import dotenv from 'dotenv';
 dotenv.config()
+
+
 
 /**
  * @openapi
@@ -17,7 +19,7 @@ dotenv.config()
  *       properties:
  *         email:
  *           type: string
- *           default: john@gmail.com
+ *           default: foo@gmail.com
  *     ForgotPasswordResponse:
  *       type: object
  *       properties:

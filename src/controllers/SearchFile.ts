@@ -6,7 +6,6 @@ import * as fs from 'fs';
 import { config } from 'dotenv';
 
 
-
 /**
  * @openapi
  * components:
@@ -40,34 +39,34 @@ import { config } from 'dotenv';
  * @param res Response object
  * @returns Rendered searchFile template or appropriate error response
  */
+
 const searchFile = async (req: Request, res: Response) => {
   const user = req.user as userInfo;
   const { title } = req.body;
 
+  // Check if title is provided
   if (!title) {
     res.redirect('/dashboard');
-    // res.status(400)
-    // res.json({error_msg: "Enter file title the next time"})
   }
 
   try {
+    // Search for files with a similar title
     const results = await pool.query(`SELECT file_id, title, description, image FROM files WHERE title ILIKE $1`, [`%${title}%`]);
     let searchfiles = results.rows;
     console.log(searchfiles);
 
+    // If no files found, redirect with error message
     if (searchfiles.length === 0) {
       req.flash('success_msg', 'No file with such title!');
       res.redirect('/dashboard');
-      // res.status(404).json({error_msg: "file does not exist"})
     }
 
+    // Render searchFile template with search results
     res.render('searchFile', { searchfiles: searchfiles, name: user.user_name });
-    // res.json({searchfiles})
-    
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-export default searchFile;
+export default searchFile

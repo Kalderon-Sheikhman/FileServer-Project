@@ -6,7 +6,7 @@ const options: swaggerJSDoc.Options = {
     definition: {
         openapi: "3.0.0",
         info: {
-            title: 'FileServer API Docs',
+            title: 'FileServer-Project API Docs',
             version: "1.0.0",
         }
     },

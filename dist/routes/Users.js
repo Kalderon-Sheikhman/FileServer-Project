@@ -25,7 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const express_2 = require("express");
 const passport_1 = __importDefault(require("passport"));
-const authAccess_1 = require("../middleware/authAccess");
+const AuthAccess_1 = require("../middleware/AuthAccess");
 const Register_1 = __importDefault(require("../controllers/Register"));
 const ForgotPassword_1 = __importDefault(require("../controllers/ForgotPassword"));
 const ConfirmLink_1 = __importDefault(require("../controllers/ConfirmLink"));
@@ -39,7 +39,7 @@ const RegisterAdmin_1 = __importDefault(require("../controllers/RegisterAdmin"))
 const app = (0, express_1.default)();
 const routes = (0, express_2.Router)();
 // Register Page
-routes.get('/register', authAccess_1.checkAuthenticated, (req, res) => {
+routes.get('/register', AuthAccess_1.checkAuthenticated, (req, res) => {
     res.render('register');
 });
 /**
@@ -101,7 +101,7 @@ routes.post('/register', Register_1.default);
  */
 routes.get('/register_admin', RegisterAdmin_1.default);
 // Login Page
-routes.get('/login', authAccess_1.checkAuthenticated, (req, res) => {
+routes.get('/login', AuthAccess_1.checkAuthenticated, (req, res) => {
     res.render('login');
 });
 /**
@@ -138,7 +138,7 @@ routes.post('/login', (req, res, next) => {
         failureFlash: true
     })(req, res, next);
 });
-routes.get('/dashboard', authAccess_1.checkNotAuthenticated, AllFiles_1.default);
+routes.get('/dashboard', AuthAccess_1.checkNotAuthenticated, AllFiles_1.default);
 // Logout Handle
 routes.get('/logout', (req, res) => {
     req.logOut(function () { console.log('Done logging out.'); });
@@ -238,14 +238,14 @@ routes.get('/reset_password/:id/:token', ConfirmLink_1.default);
  *         description: Bad request
  */
 routes.post('/reset_password/:id/:token', ResetPassword_1.default);
-routes.post('/send_mail', authAccess_1.checkNotAuthenticated, (req, res) => {
+routes.post('/send_mail', AuthAccess_1.checkNotAuthenticated, (req, res) => {
     const { file_id, filename, description, myfile } = req.body;
     console.log(req.body);
     res.render('sendingMail', { file_id, filename, description, myfile });
 });
 routes.post('/sending_mail', SendingMail_1.default);
 routes.post('/download_file', DownloadFile_1.default);
-routes.get('/upload_file', authAccess_1.checkNotAuthenticated, authAccess_1.verifyAdmin, (req, res) => {
+routes.get('/upload_file', AuthAccess_1.checkNotAuthenticated, AuthAccess_1.verifyAdmin, (req, res) => {
     res.render('uploadFile');
 });
 /**
@@ -281,9 +281,9 @@ routes.get('/upload_file', authAccess_1.checkNotAuthenticated, authAccess_1.veri
  *       400:
  *         description: Bad request
  */
-routes.post('/upload_file', authAccess_1.checkNotAuthenticated, authAccess_1.verifyAdmin, UploadFile_1.upload, UploadFile_1.default);
+routes.post('/upload_file', AuthAccess_1.checkNotAuthenticated, AuthAccess_1.verifyAdmin, UploadFile_1.upload, UploadFile_1.default);
 // search by file title
-routes.get('/search_file', authAccess_1.checkNotAuthenticated, (req, res) => {
+routes.get('/search_file', AuthAccess_1.checkNotAuthenticated, (req, res) => {
     res.render('searchFile');
 });
 /**
@@ -311,5 +311,5 @@ routes.get('/search_file', authAccess_1.checkNotAuthenticated, (req, res) => {
  *       400:
  *         description: Bad request
  */
-routes.post('/search_file', authAccess_1.checkNotAuthenticated, SearchFile_1.default);
+routes.post('/search_file', AuthAccess_1.checkNotAuthenticated, SearchFile_1.default);
 exports.default = routes;

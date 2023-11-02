@@ -1,18 +1,18 @@
 import express, { Application, Request, Response, NextFunction} from 'express'
 import { Router } from 'express'
 import passport from 'passport';
-import { checkAuthenticated, checkNotAuthenticated, verifyAdmin } from '../middleware/authAccess'
-import register from '../controllers/register';
-import forgotPassword from '../controllers/forgotPassword';
-import confirmLink from '../controllers/confirmLink';
-import resetPassword from '../controllers/resetPassword';
-import uploadForm from '../controllers/uploadFile';
-import uploadFile, { upload } from '../controllers/uploadFile';
-import allFiles from '../controllers/allFiles';
-import searchFile from '../controllers/searchFile';
-import sendingMail from '../controllers/sendingMail';
-import downloadFile from '../controllers/downloadFile';
-import registerAdmin from '../controllers/registerAdmin';
+import { checkAuthenticated, checkNotAuthenticated, verifyAdmin } from '../middleware/AuthAccess'
+import register from '../controllers/Register';
+import forgotPassword from '../controllers/ForgotPassword';
+import confirmLink from '../controllers/ConfirmLink';
+import resetPassword from '../controllers/ResetPassword';
+import uploadForm from '../controllers/UploadFile';
+import uploadFile, { upload } from '../controllers/UploadFile';
+import allFiles from '../controllers/AllFiles';
+import searchFile from '../controllers/SearchFile';
+import sendingMail from '../controllers/SendingMail';
+import downloadFile from '../controllers/DownloadFile';
+import registerAdmin from '../controllers/RegisterAdmin';
 
 
 const app: Application = express()

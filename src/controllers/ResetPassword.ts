@@ -1,8 +1,8 @@
 import express, { Application, Request, Response, NextFunction} from 'express'
-import pool from '../dbConfig/db'
-import { hashPassword } from '../utils/hashPassword'
-import jwt from 'jsonwebtoken'
-const app: Application = express()
+import pool from '../dbConfig/db';
+import { hashPassword } from '../utils/HashPassword';
+import jwt from 'jsonwebtoken';
+const app: Application = express();
 
 /**
  * @openapi
@@ -16,10 +16,10 @@ const app: Application = express()
  *       properties:
  *         password:
  *           type: string
- *           default: john123
+ *           default: foobar123
  *         password2:
  *           type: string
- *           default: john123
+ *           default: foobar123
  *     ResetPasswordResponse:
  *       type: object
  *       properties:
@@ -27,9 +27,7 @@ const app: Application = express()
  *           type: string
  */
 
-
-
-
+// Function to reset password
 const resetPassword = async (req: Request, res: Response) => {
     const { id, token } = req.params
 
@@ -41,23 +39,23 @@ const resetPassword = async (req: Request, res: Response) => {
 
     let errors: any = []
 
+    // Check if required fields are missing
     if (!password || !password2) {
         errors.push({ msg: 'Please enter all fields'})
     }
 
-    if (password.length < 6) {
-        errors.push({ msg: 'Password should be at least 6 characters'})
+    // Check if password length is valid
+    if (password.length < 7) {
+        errors.push({ msg: 'Password should be at least 7 characters'})
     }
 
+    // Check if passwords match
     if (password != password2) {
         errors.push({msg: 'Passwords do not match'})
     }
 
     if (errors.length > 0) {
         res.render('resetPassword', { errors })
-        /*res.status(400).json({
-            errors: errors
-        })*/
     } else {
         // Form validation has passed
 
@@ -81,12 +79,10 @@ const resetPassword = async (req: Request, res: Response) => {
                     console.log(result.rows)
                     req.flash('success_msg', 'Password reset done successfully')
                     res.redirect('/login')
-                    // res.status(200).json({'success_msg': 'Password reset done successfully, you can now login to view your resource'})
                 })
             }
         )
     }
 }
-
 
 export default resetPassword

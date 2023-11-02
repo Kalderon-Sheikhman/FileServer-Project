@@ -5,17 +5,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.port = exports.app = void 0;
 const express_1 = __importDefault(require("express"));
-const index_1 = __importDefault(require("./routes/index"));
-const users_1 = __importDefault(require("./routes/users"));
+const Index_1 = __importDefault(require("./routes/Index"));
+const Users_1 = __importDefault(require("./routes/Users"));
 const express_ejs_layouts_1 = __importDefault(require("express-ejs-layouts"));
 const connect_flash_1 = __importDefault(require("connect-flash"));
 const express_session_1 = __importDefault(require("express-session"));
 const passport_1 = __importDefault(require("passport"));
-const swagger_1 = __importDefault(require("./utils/swagger"));
+const Swagger_1 = __importDefault(require("./utils/Swagger"));
 exports.app = (0, express_1.default)();
 // Authorize Login
-const authLogins_1 = __importDefault(require("./middleware/authLogins"));
-(0, authLogins_1.default)(passport_1.default);
+const AuthLogins_1 = __importDefault(require("./middleware/AuthLogins"));
+(0, AuthLogins_1.default)(passport_1.default);
 // Public Folder
 exports.app.use(express_1.default.static('./public'));
 // EJS
@@ -51,11 +51,11 @@ exports.app.use((req, res, next) => {
     next();
 });
 // Routes
-exports.app.use('/', index_1.default);
-exports.app.use('/', users_1.default);
-exports.port = process.env.PORT ? Number(process.env.PORT) : 3001;
+exports.app.use('/', Index_1.default);
+exports.app.use('/', Users_1.default);
+exports.port = process.env.PORT ? Number(process.env.PORT) : 5000;
 //  app listen
 exports.app.listen(exports.port, () => {
     console.log(`Server running on port ${exports.port}`);
-    (0, swagger_1.default)(exports.app, exports.port);
+    (0, Swagger_1.default)(exports.app, exports.port);
 });

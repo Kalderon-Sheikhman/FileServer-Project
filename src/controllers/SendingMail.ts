@@ -1,9 +1,8 @@
-import express, { Application, Request, Response, NextFunction} from 'express'
-import transporter from '../utils/mailer'
-import pool from '../dbConfig/db'
-import userInfo from '../types/userInfo'
-import path from 'path'
-
+import express, { Application, Request, Response, NextFunction} from 'express';
+import transporter from '../utils/Mailer';
+import pool from '../dbConfig/db';
+import userInfo from '../types/userInfo';
+import path from 'path';
 
 
 const isFileInSession = (sent_files: any, id: string) => {
@@ -16,20 +15,25 @@ const isFileInSession = (sent_files: any, id: string) => {
     return false
 }
 
-
+/**
+ * Sends an email with an attached file.
+ * @param req Request object
+ * @param res Response object
+ * @returns Redirects to the dashboard or appropriate error response
+ */
 const sendingMail = (req: Request, res: Response) => {
     const { to, subject, body, file_id, filename, description, myfile } = req.body
+
+    // Check if email and subject are provided
     if (!to || !subject) {
         req.flash('success_msg', 'File could not be delivered, no mail address provided!')
         res.redirect('/dashboard')
-        // res.status(400).json({error_msg: 'Please provide mail address'})
     }
 
     const nunmerOfSentFiles = 1
     const user = req.user as userInfo
     const { user_id, user_email } = user
-    console.log(to, subject, body, myfile, file_id, filename, description, myfile)
-    
+
     const fileData = {
         user_id,
         user_email,
@@ -38,6 +42,7 @@ const sendingMail = (req: Request, res: Response) => {
         nunmerOfSentFiles
     }
 
+    // Store sent file in session if not already present
     if(req.session.sent_files !== undefined) {
         const sent_files = req.session.sent_files
 
@@ -49,8 +54,9 @@ const sendingMail = (req: Request, res: Response) => {
         req.session.sent_files = [fileData]
         const sent_files = req.session.sent_files
     }
+
+    // Store information in the database
     let results = req.session.sent_files
-    console.log('No. mail sent...', results)
     for(let i: number = 0; i<results.length; i++) {
         pool.query(`INSERT INTO mails_sent (mails_sent_id, user_id, user_email, file_id, image, number_of_sent_files)
         VALUES ($1, $2, $3, $4, $5, $6)
@@ -66,11 +72,10 @@ const sendingMail = (req: Request, res: Response) => {
             if (err) {
                 throw err
             }
-            console.log(result.rows)
         })
     }
     
-
+    // Send email with attachment
     const mailOptions = {
         from: process.env.ADMIN_MAIL,
         to: to,
@@ -84,17 +89,15 @@ const sendingMail = (req: Request, res: Response) => {
     }
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
-       console.log(error);
-       // res.status(500).json({error_msg: 'Something went wrong, could send mail with attachment'})
+            console.log(error);
         } else {
-          console.log('Email sent: ' + info.response);
-          
+            console.log('Email sent: ' + info.response);
         }
-      });
+    });
     
-    req.flash('success_msg', 'File has been sent to specified mail address')
+    // Redirect to the dashboard with success message
+    req.flash('success_msg', 'File sent to mail address successfully')
     res.redirect('/dashboard')
-    // res.status(200).json({'success_msg': 'File has been sent to specified mail address'})
 }
 
 export default sendingMail

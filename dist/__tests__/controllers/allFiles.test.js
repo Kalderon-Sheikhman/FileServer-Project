@@ -13,11 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = __importDefault(require("../../dbConfig/db"));
-const allFiles_1 = __importDefault(require("../../controllers/allFiles"));
+const AllFiles_1 = __importDefault(require("../../controllers/AllFiles"));
 jest.mock('../../dbConfig/db');
 describe('allFiles function', () => {
     let req;
     let res;
+    // Set up mock request and response objects before each test
     beforeEach(() => {
         // @ts-ignore
         req = {
@@ -25,12 +26,14 @@ describe('allFiles function', () => {
         };
         res = {
             status: jest.fn().mockReturnThis(),
-            json: jest.fn(),
+            json: jest.fn(), // Mock the json function of the response
         };
     });
+    // Clear all mocks after each test
     afterEach(() => {
         jest.clearAllMocks();
     });
+    // Test to check if all files are returned for an admin user
     it('should return all files for admin user', () => __awaiter(void 0, void 0, void 0, function* () {
         const mockFileInfos = [
             {
@@ -49,40 +52,51 @@ describe('allFiles function', () => {
             },
         ];
         const mockFileInfo = { rows: mockFileInfos };
+        // Mock the resolved value of the pool query to be the mock file info
         db_1.default.query.mockResolvedValue(mockFileInfo);
-        yield (0, allFiles_1.default)(req, res);
+        // Call the allFiles function with the mock request and response
+        yield (0, AllFiles_1.default)(req, res);
+        // Expect the pool query to have been called
         expect(db_1.default.query).toHaveBeenCalled();
+        // Expect the status function to have been called with 200
         expect(res.status).toHaveBeenCalledWith(200);
+        // Expect the json function to have been called with the mock file infos
         expect(res.json).toHaveBeenCalledWith({
-            'You are login as: ': 'Admin',
+            'You are logged in  as: ': 'Admin',
             fileInfos: mockFileInfos,
         });
     }));
+    // Test to check if all files are returned for a non-admin user
     it('should return all files for non-admin user', () => __awaiter(void 0, void 0, void 0, function* () {
         // @ts-ignore
         req.user.is_admin = false;
         const mockFiles = [
-            { file_id: 1, title: 'File 1', description: 'Description 1', uploaded_at: '2023-05-12' },
-            { file_id: 2, title: 'File 2', description: 'Description 2', uploaded_at: '2023-05-11' },
+            { file_id: 1, title: 'File 1', description: 'Description 1', uploaded_at: '2023-11-02' },
+            { file_id: 2, title: 'File 2', description: 'Description 2', uploaded_at: '2023-11-01' },
         ];
         const mockUserFiles = { rows: mockFiles };
         db_1.default.query.mockResolvedValue(mockUserFiles);
-        yield (0, allFiles_1.default)(req, res);
+        yield (0, AllFiles_1.default)(req, res);
         expect(db_1.default.query).toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
-            'You are login as: ': 'Admin',
+            'You are logged in as: ': 'Admin',
             files: mockFiles,
         });
     }));
+    // Test to handle database errors
     it('should handle database errors', () => __awaiter(void 0, void 0, void 0, function* () {
         const mockError = new Error('Database error');
         db_1.default.query.mockImplementation(() => {
             throw mockError;
         });
-        yield expect((0, allFiles_1.default)(req, res)).resolves.toBeUndefined();
+        // Expect the allFiles function to return undefined (resolves) when called
+        yield expect((0, AllFiles_1.default)(req, res)).resolves.toBeUndefined();
+        // Expect the pool query to have been called
         expect(db_1.default.query).toHaveBeenCalled();
+        // Expect the status function to have been called with 500
         expect(res.status).toHaveBeenCalledWith(500);
+        // Expect the json function to have been called with an error message
         expect(res.json).toHaveBeenCalledWith({ error_msg: 'Something went wrong' });
     }));
 });

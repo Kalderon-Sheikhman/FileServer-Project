@@ -1,13 +1,17 @@
-import express, { Application, Request, Response, NextFunction} from 'express'
-import pool from '../dbConfig/db'
-import userInfo from '../types/userInfo'
-import path from 'path'
+import express, { Application, Request, Response, NextFunction} from 'express';
+import pool from '../dbConfig/db';
+import userInfo from '../types/userInfo';
+import path from 'path';
 
-function extractFilenameFromPath(path: string): string {
+
+// Function to extract filename from path
+const extractFilenameFromPath = (path: string): string => {
     const filename = path.substring(path.lastIndexOf('/') + 1);
     return filename;
-}
+};
 
+
+// Check if the file is already in the user's session
 const isFileInSession = (downloaded_files: any, id: string) => {
     for(let i: number =0; i<downloaded_files.length; i++) {
         if(downloaded_files[i].file_id == id) {
@@ -20,12 +24,14 @@ const isFileInSession = (downloaded_files: any, id: string) => {
 
 
 
+// Function to download a file
 const downloadFile = (req: Request, res: Response) => {
     const user = req.user as userInfo
     const { user_id, user_email} = user
     let { file_id, filename, description, myfile } = req.body
     const numberOfDownloadedFiles = 1
 
+    // Extract filename from the file path
     const exfilename = extractFilenameFromPath(myfile);
     const imagePath = `/app/public/uploads/${exfilename}`
 
@@ -39,6 +45,7 @@ const downloadFile = (req: Request, res: Response) => {
         numberOfDownloadedFiles
     }
 
+    // Check if the file is in the session
     if(req.session.downloaded_files !== undefined) {
         const downloads_cart = req.session.downloaded_files
 
@@ -46,13 +53,13 @@ const downloadFile = (req: Request, res: Response) => {
             downloads_cart.push(fileData)
             
         }
-    }else {
+    } else {
         req.session.downloaded_files = [fileData]
         const downloads_cart = req.session.downloaded_files
     }
-    console.log('huh!', req.session.downloaded_files)
+    console.log('Negative!', req.session.downloaded_files)
     let results = req.session.downloaded_files
-    console.log('No. mail sent...', results, exfilename)
+    console.log('Mailing Done...', results, exfilename)
     for(let i: number = 0; i<results.length; i++) {
         pool.query(`INSERT INTO downloads (downloaded_files_id, user_id, user_email, file_id, image, number_of_downloaded_files)
         VALUES ($1, $2, $3, $4, $5, $6)
@@ -72,14 +79,15 @@ const downloadFile = (req: Request, res: Response) => {
         })
     }
 
+    // Download the file
     res.download(imagePath, (err) => {
         if (err) {
             console.error('file not found', err)
         } else {
-            console.log('File downloaded successfully')
+            console.log('file has been successfully downloaded')
             
         }
     })
 }
 
-export default downloadFile
+export default downloadFile;

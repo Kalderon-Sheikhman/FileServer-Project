@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import pool from '../../dbConfig/db';
-import searchFile from '../../controllers/searchFile';
+import searchFile from '../../controllers/SearchFile';
 
+// Mocking the necessary module
 jest.mock('../../dbConfig/db');
 
 describe('searchFile function', () => {
@@ -16,6 +17,7 @@ describe('searchFile function', () => {
     } as unknown as Response;
   });
 
+  // Test to check for missing title
   it('should return an error if title is missing', async () => {
     req.body = {};
 
@@ -25,6 +27,7 @@ describe('searchFile function', () => {
     expect(res.json).toHaveBeenCalledWith({ error_msg: 'Enter file title the next time' });
   });
 
+  // Test to check if no files match the title
   it('should return an error if no files match the title', async () => {
     req.body = { title: 'Non-existent file' };
 
@@ -37,11 +40,12 @@ describe('searchFile function', () => {
     expect(res.json).toHaveBeenCalledWith({ error_msg: 'file does not exist' });
   });
 
+  // Test to check if files match the title
   it('should return the search results if files match the title', async () => {
-    req.body = { title: 'Wodin Fabrics' };
+    req.body = { title: 'First File' };
     const mockRows = [
-      { file_id: 1, title: 'Wodin Fabrics', description: 'Description 1', image: 'image1.jpg' },
-      { file_id: 2, title: 'Wodin Fabrics', description: 'Description 2', image: 'image2.jpg' },
+      { file_id: 1, title: 'First File', description: 'Description 1', image: 'image1.jpg' },
+      { file_id: 2, title: 'Second File', description: 'Description 2', image: 'image2.jpg' },
     ];
     const mockResults = { rows: mockRows };
 
@@ -54,8 +58,9 @@ describe('searchFile function', () => {
     expect(res.json).toHaveBeenCalledWith({ searchfiles: mockRows });
   });
 
+  // Test to check handling of database errors
   it('should handle database errors', async () => {
-    req.body = { title: 'Wodin Fabrics' };
+    req.body = { title: 'First File' };
     const mockError = new Error('Database error');
 
     (pool.query as jest.Mock).mockRejectedValue(mockError);

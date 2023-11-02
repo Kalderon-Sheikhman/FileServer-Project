@@ -1,7 +1,6 @@
-import express, { Application, Request, Response, NextFunction} from 'express'
-import pool from '../dbConfig/db'
-import userInfo from '../types/userInfo'
-
+import express, { Application, Request, Response, NextFunction} from 'express';
+import pool from '../dbConfig/db';
+import userInfo from '../types/userInfo';
 
 /**
  * @openapi
@@ -15,10 +14,10 @@ import userInfo from '../types/userInfo'
  *       properties:
  *         email:
  *           type: string
- *           default: john@gmail.com
+ *           default: foo@gmail.com
  *         password:
  *           type: string
- *           default: john123
+ *           default: foo123
  *     LoginUserResponse:
  *       type: object
  *       properties:
@@ -34,11 +33,12 @@ import userInfo from '../types/userInfo'
  *           type: string
  */
 
-
+// Handles the retrieval of all files based on user type (admin or non-admin)
 const allFiles = async (req: Request, res: Response) => {
-    const user = req.user as userInfo
+    const user = req.user as userInfo;
+
+    // If the user is an admin, retrieve all files with additional information
     if (user.is_admin === true) {
-        
         try {
             let fileInfo = await pool.query(
                 `SELECT f.title, f.description, f.image, COALESCE(s.number_of_sent_files, '0') AS number_of_sent_files, COALESCE(d.number_of_downloaded_files, '0') AS number_of_downloaded_files
@@ -49,13 +49,10 @@ const allFiles = async (req: Request, res: Response) => {
                 `,
             )
             let fileInfos = fileInfo.rows
-            res.render('adminDashboard', { fileInfos: fileInfos, name: user.user_name })
-            // res.status(200)
-            // res.json({"You are login as: ": user.user_name, fileInfos})
-    
+            res.render('adminDashboard', { fileInfos: fileInfos, name: user.user_name }) // Render the admin dashboard
         } catch (err: any) {
             res.status(500)
-            res.json({error_msg: 'Something went wrong'})
+            res.json({error_msg: 'Something went wrong'}) // Return error message for internal server error
         }
         
     } else {
@@ -65,16 +62,13 @@ const allFiles = async (req: Request, res: Response) => {
                 `SELECT * FROM files ORDER BY uploaded_at DESC`
             )
             let files = userfiles.rows
-            res.render('userDashboard', { files: files, name: user.user_name })
-            // res.status(200)
-            // res.json({"You are login as: ": user.user_name, files})
-    
+            res.render('userDashboard', { files: files, name: user.user_name }) // Render the user dashboard
         } catch (err: any) {
             res.status(500)
-            res.json({error_msg: 'Something went wrong'})
+            res.json({error_msg: 'Something went wrong'}) // Return error message for internal server error
         }
          
     } 
 }
 
-export default allFiles
+export default allFiles;

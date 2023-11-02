@@ -1,7 +1,7 @@
-import express, { Application, Request, Response, NextFunction} from 'express'
-import pool from '../dbConfig/db'
-import { hashPassword } from '../utils/hashPassword'
-const app: Application = express()
+import express, { Application, Request, Response, NextFunction} from 'express';
+import pool from '../dbConfig/db';
+import { hashPassword } from '../utils/HashPassword';
+const app: Application = express();
 
 /**
  * @openapi
@@ -21,6 +21,7 @@ const app: Application = express()
  *           description: Email address of the admin
  */
 
+// Function to register an admin
 const registerAdmin = async (req: Request, res: Response) => {
     let { name, email } = req.query
     console.log({
@@ -32,28 +33,17 @@ const registerAdmin = async (req: Request, res: Response) => {
     let isAdmin: boolean = true
     let errors: any = []
 
+    // Check if required fields are missing
     if (!name || !email) {
         errors.push({ msg: 'Please enter all fields'})
-        //res.status(400)
-        /*res.json({
-            errors: [{ msg: 'Please enter all fields' }],
-          });*/
     }
 
+    // Check if passwords match
     if (password !== confirmPassword) {
         errors.push({msg: 'Passwords do not match'})
-        /*res.status(400).json({
-            errors: [{ msg: 'Passwords do not match' }],
-          });*/
-
-    
     }
     if (errors.length > 0) {
         res.render('register', {errors})
-        // res.status(400)
-        /*res.json({
-            errors: errors
-          });*/
     } else {
         // Form validation has passed
 
@@ -68,10 +58,6 @@ const registerAdmin = async (req: Request, res: Response) => {
                 if (result.rows.length > 0) {
                     errors.push({ msg: 'Email already registered'})
                     res.render('register', { errors })
-                    // res.status(409)
-                    /*res.json({
-                        errors: [{msg: 'Email already registered'}],
-                    })*/
                 } else {
                     pool.query(
                         `INSERT INTO users (user_name, user_email, user_password, is_admin)
@@ -85,12 +71,6 @@ const registerAdmin = async (req: Request, res: Response) => {
                             const adminUser = result.rows[0]
                             req.flash('success_msg', 'You are now registered, Please log in')
                             res.redirect('/login')
-                            // res.status(200)
-                            /*res.json({
-                                user_name: adminUser.user_name,
-                                user_email: adminUser.user_email,
-                                user_id: adminUser.user_id
-                            })*/
                         }
                     )
                 }
@@ -98,6 +78,5 @@ const registerAdmin = async (req: Request, res: Response) => {
         )
     }
 }
-
 
 export default registerAdmin

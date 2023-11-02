@@ -1,11 +1,11 @@
 import express, { Request, Response, NextFunction} from 'express'
-import hRoutes from './routes/index';
-import uRoutes from './routes/users';
+import hRoutes from './routes/Index';
+import uRoutes from './routes/Users';
 import expressLayout from 'express-ejs-layouts'
 import flash from 'connect-flash';
 import session, { Session, SessionData } from 'express-session';
 import passport from 'passport';
-import swaggerDocs from './utils/swagger';
+import swaggerDocs from './utils/Swagger';
 
 
 
@@ -13,7 +13,7 @@ import swaggerDocs from './utils/swagger';
 export const app = express()
 
 // Authorize Login
-import initialize from './middleware/authLogins';
+import initialize from './middleware/AuthLogins';
 initialize(passport)
 
 // Public Folder
@@ -70,7 +70,7 @@ app.use('/', uRoutes)
 
 
 
-export const port = process.env.PORT ? Number(process.env.PORT) : 3001;
+export const port = process.env.PORT ? Number(process.env.PORT) : 5000;
 
 //  app listen
 app.listen(port, () => {
