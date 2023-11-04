@@ -146,7 +146,7 @@ routes.get('/dashboard', AuthAccess_1.checkNotAuthenticated, AllFiles_1.default)
 // Logout Handle
 routes.get('/logout', (req, res) => {
     req.logOut(function () { console.log('Done logging out.'); });
-    req.flash('success_msg', 'You have log yourself out');
+    req.flash('success_msg', 'Logged out');
     res.redirect('/login');
 });
 routes.get('/forgot_password', (req, res, next) => {

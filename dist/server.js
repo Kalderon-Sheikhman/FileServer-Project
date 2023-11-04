@@ -27,18 +27,17 @@ exports.app.use(express_1.default.json());
 exports.app.use(express_1.default.urlencoded({ extended: true }));
 // Express Session
 const pgSession = (0, connect_pg_simple_1.default)(express_session_1.default);
-const conString = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`;
 exports.app.use((0, express_session_1.default)({
     store: new pgSession({
-        conString: conString,
+        conString: process.env.POSTGRES_URL + "?sslmode=require",
         tableName: 'session',
     }),
     secret: 'secret',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 1 * 60 * 60 * 1000, // number of milliseconds a user remains authenticated
+        secure: process.env.NODE_ENV === 'development' ? true : false,
+        maxAge: 1 * 60 * 60 * 1000, // 1 hour in milliseconds
     },
 }));
 // Initialize passport middleware
@@ -55,7 +54,6 @@ exports.app.use((req, res, next) => {
 });
 // Add a middleware to set the 'cache-control' header for authenticated routes
 exports.app.use((req, res, next) => {
-    // For authenticated routes, set cache-control to 'no-store' to prevent caching
     if (req.isAuthenticated()) {
         res.setHeader('Cache-Control', 'no-store');
     }

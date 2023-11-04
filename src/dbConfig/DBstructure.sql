@@ -26,7 +26,7 @@ UPDATE users SET is_admin = true WHERE user_name = 'kduah';
 
 
 -- Create a new database called fileserver
-CREATE DATABASE fileserver;
+CREATE DATABASE dbfileserver;
 
 -- Enable the uuid-ossp extension for UUID generation
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -40,6 +40,17 @@ CREATE TABLE users(
     is_admin BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY(user_id)
 );
+-- Session management app
+CREATE TABLE session (
+  sid varchar NOT NULL COLLATE "default",
+  sess json NOT NULL,
+  expire timestamp(6) NOT NULL
+)
+WITH (OIDS=FALSE);
+
+
+ALTER TABLE session ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
 
 -- Create the files table
 CREATE TABLE files(
