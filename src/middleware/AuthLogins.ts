@@ -1,6 +1,7 @@
-const LocalStrategy = require("passport-local").Strategy
-import pool from "../dbConfig/db"
-import { comparePassword } from "../utils/HashPassword"
+const LocalStrategy = require("passport-local").Strategy;
+import pool from "../dbConfig/db";
+import { comparePassword } from "../utils/HashPassword";
+
 
 function initialize(passport: any) {
     const authenticateUser = async(email: string, password: string, done: any) => {
@@ -56,4 +57,4 @@ function initialize(passport: any) {
     })
 }
 
-export default initialize
+export default initialize;

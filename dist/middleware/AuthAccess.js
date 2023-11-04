@@ -12,9 +12,9 @@ const checkNotAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
     }
-    req.flash('error_msg', 'Please log in to view resource');
+    req.flash('error_msg', 'Sign in to access page!');
     res.redirect('/login');
-    // res.status(401).json({error_msg: 'Please log in to view resources!'})
+    // res.status(401).json({error_msg: 'Sign in to access page!'})
 };
 exports.checkNotAuthenticated = checkNotAuthenticated;
 const verifyAdmin = (req, res, next) => {
@@ -24,7 +24,7 @@ const verifyAdmin = (req, res, next) => {
     }
     else {
         return res.redirect('/dashboard');
-        // res.status(401).json({error_msg: 'Only Admin can access to this web page or resources!'});
+        // res.status(401).json({error_msg: 'Only Admin can access to this page'});
     }
 };
 exports.verifyAdmin = verifyAdmin;

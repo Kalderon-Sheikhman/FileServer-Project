@@ -4,9 +4,9 @@ import uRoutes from './routes/Users';
 import expressLayout from 'express-ejs-layouts'
 import flash from 'connect-flash';
 import session, { Session, SessionData } from 'express-session';
+import PgSession from 'connect-pg-simple';
 import passport from 'passport';
 import swaggerDocs from './utils/Swagger';
-
 
 
 
@@ -15,6 +15,8 @@ export const app = express()
 // Authorize Login
 import initialize from './middleware/AuthLogins';
 initialize(passport)
+
+
 
 // Public Folder
 app.use(express.static('./public'))
@@ -27,19 +29,34 @@ app.set('view engine', 'ejs')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+
+
 // Express Session
+
+const pgSession = PgSession(session);
+const conString = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`;
+
 app.use(
   session({
-      secret: "secret",
-      resave: false,
-      saveUninitialized: false
-
+    store: new pgSession({
+      conString: conString,
+      tableName: 'session',
+    }),
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production', // Set secure attribute based on the environment
+      maxAge: 1 * 60 * 60 * 1000 , // number of milliseconds a user remains authenticated
+    },
   })
-)
+);
 
-// Passport middleware
-app.use(passport.initialize())
-app.use(passport.session())
+
+// Initialize passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // Connect flash
 app.use(flash())

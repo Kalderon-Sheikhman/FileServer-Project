@@ -37,7 +37,7 @@ const checkFileType = (file: any, cb: any) => {
     if (mimetype && extname) {
         return cb(null, true)
     } else {
-        cb('Only image files are allowed!')
+        cb('only image files are allowed')
     }
 }
 
@@ -63,9 +63,9 @@ const uploadFile = (req: Request, res: Response) => {
     }
     
     if (!req.file) {
-        errors.push({msg: 'No file was selected'})
+        errors.push({msg: 'No file has been selected'})
         return res.render('uploadFile', {errors})
-        // return res.status(404).json({error_msg: 'No file was selected'})
+        // return res.status(404).json({error_msg: 'No file has been selected'})
     }
   
     

@@ -1,5 +1,6 @@
-import express, { Application, Request, Response, NextFunction} from 'express'
-import userInfo from '../types/userInfo'
+import express, { Application, Request, Response, NextFunction} from 'express';
+import userInfo from '../types/userInfo';
+
 export const checkAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     if (req.isAuthenticated()) {
         return res.redirect('/dashboard')
@@ -14,7 +15,7 @@ export const checkNotAuthenticated = (req: Request, res: Response, next: NextFun
     }
     req.flash('error_msg', 'Sign in to access page!')
     res.redirect('/login')
-    // res.status(401).json({error_msg: 'Sign in to access page!s!'})
+    // res.status(401).json({error_msg: 'Sign in to access page!'})
 }
 
 export const verifyAdmin = (req: Request, res: Response, next: NextFunction) => {
@@ -24,7 +25,7 @@ export const verifyAdmin = (req: Request, res: Response, next: NextFunction) => 
     }
     else{
         return res.redirect('/dashboard')
-        // res.status(401).json({error_msg: 'Only Admin can access to this web page or resources!'});
+        // res.status(401).json({error_msg: 'Only Admin can access to this page'});
     }
 };
 

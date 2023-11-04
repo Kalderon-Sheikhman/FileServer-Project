@@ -10,6 +10,7 @@ const Users_1 = __importDefault(require("./routes/Users"));
 const express_ejs_layouts_1 = __importDefault(require("express-ejs-layouts"));
 const connect_flash_1 = __importDefault(require("connect-flash"));
 const express_session_1 = __importDefault(require("express-session"));
+const connect_pg_simple_1 = __importDefault(require("connect-pg-simple"));
 const passport_1 = __importDefault(require("passport"));
 const Swagger_1 = __importDefault(require("./utils/Swagger"));
 exports.app = (0, express_1.default)();
@@ -25,12 +26,22 @@ exports.app.set('view engine', 'ejs');
 exports.app.use(express_1.default.json());
 exports.app.use(express_1.default.urlencoded({ extended: true }));
 // Express Session
+const pgSession = (0, connect_pg_simple_1.default)(express_session_1.default);
+const conString = `postgresql://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`;
 exports.app.use((0, express_session_1.default)({
-    secret: "secret",
+    store: new pgSession({
+        conString: conString,
+        tableName: 'session',
+    }),
+    secret: 'secret',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 1 * 60 * 60 * 1000, // number of milliseconds a user remains authenticated
+    },
 }));
-// Passport middleware
+// Initialize passport middleware
 exports.app.use(passport_1.default.initialize());
 exports.app.use(passport_1.default.session());
 // Connect flash
