@@ -44,8 +44,6 @@ Multer, Nodemail,JWT, Express, NodeJS,typescript etc.
 Hosted On Railsway.app and postgres deployed at Vercel
 
 #### **Foray Into the APP**
-Admin Panel Display
-![admin panel](https://github.com/Kalderon-Sheikhman/FileServer-Project/assets/74660152/64aa115f-4f83-46e9-8285-7cb088a907e2)
 
 Admin Display
 ![admin upload](https://github.com/Kalderon-Sheikhman/FileServer-Project/assets/74660152/26169418-e65f-4a13-bdd1-9fd445e093b5)
