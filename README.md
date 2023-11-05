@@ -45,9 +45,6 @@ Hosted On Railsway.app and postgres deployed at Vercel
 
 #### **Foray Into the APP**
 
-Admin Display
-![admin upload](https://github.com/Kalderon-Sheikhman/FileServer-Project/assets/74660152/26169418-e65f-4a13-bdd1-9fd445e093b5)
-
 User Dashboard
 ![userdashboard](https://github.com/Kalderon-Sheikhman/FileServer-Project/assets/74660152/26b953f4-7d85-4692-9087-6831ad320287)
 
